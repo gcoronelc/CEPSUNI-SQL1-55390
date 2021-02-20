@@ -100,6 +100,7 @@ go
 CREATE TABLE PRODUCTO
 ( 
 	IDPRODUCTO           integer IDENTITY ( 1,1 ) ,
+	NOMBRE               varchar(100)  NOT NULL ,
 	IDCATEGORIA          integer  NOT NULL ,
 	PRECIO               numeric(10,2)  NOT NULL ,
 	STOCK                integer  NOT NULL ,
