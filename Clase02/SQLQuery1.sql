@@ -17,7 +17,7 @@ CREATE TABLE articulo (
 GO
 
 INSERT INTO articulo(art_nombre,art_pre_costo,art_pre_venta,art_stock)
-values('TELEVISOR',3000.00,5000.00,400);
+values('TELEVISOR',3000.00,5000.123456,400);
 GO
 
 INSERT INTO articulo(art_nombre,art_pre_costo,art_pre_venta,art_stock)
@@ -53,6 +53,10 @@ GO
 
 INSERT INTO articulo(art_nombre,art_pre_costo,art_pre_venta,art_stock)
 values('JUEGO DE COMEDOR', 2499.00,4845.00,290);
+GO
+
+INSERT INTO articulo(art_nombre,art_pre_costo,art_pre_venta,art_stock)
+values('TELEVISOR DIGITAL',3000.00,5000.123456,400);
 GO
 
 select * from articulo;
