@@ -7,6 +7,9 @@ GO
 
 -- Categorias
 
+DELETE FROM CATEGORIA;
+GO
+
 SET IDENTITY_INSERT CATEGORIA ON;
 GO
 
@@ -25,12 +28,33 @@ go
 -- PRODUCTOS - MENAJE
 
 
+
+
 -- PRODUCTOS - LINEA BLANCA 
+
+
 
 
 -- PRODUCTOS - MUEBLES
 
 
+
+
+
+-- EMPLEADOS
+
+
+-- USUARIOS
+
+
+-- CLIENTES
+
+
+
+-- VENTAS
+
+
+-- DETALLES DE VENTAS
 
 
 
