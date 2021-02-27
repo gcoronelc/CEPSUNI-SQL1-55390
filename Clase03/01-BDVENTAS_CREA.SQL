@@ -1,0 +1,133 @@
+
+-- =============================================
+-- Creación de la Base de Datos
+-- =============================================
+
+USE master;
+go
+
+IF( EXISTS ( SELECT name FROM master.sys.databases WHERE name = 'BDVENTAS' ) )
+BEGIN
+	DROP DATABASE BDVENTAS;
+END;
+go
+
+CREATE DATABASE BDVENTAS;
+go
+
+
+
+-- =============================================
+-- Seleccionar la Base de Datos
+-- =============================================
+
+USE BDVENTAS;
+GO
+
+
+
+CREATE TABLE CLIENTE
+( 
+	IDCLIENTE            integer IDENTITY ( 1,1 ) ,
+	NOMBRE               varchar(100)  NOT NULL ,
+	DIRECCION            varchar(100)  NOT NULL ,
+	TELEFONO             varchar(20)  NOT NULL ,
+	CORREO               varchar(100)  NOT NULL ,
+	CONSTRAINT XPKCLIENTE PRIMARY KEY (IDCLIENTE ASC)
+)
+go
+
+
+
+CREATE TABLE EMPLEADO
+( 
+	IDEMPLEADO           integer IDENTITY ( 1,1 ) ,
+	NOMBRE               varchar(100)  NOT NULL ,
+	DIRECCION            varchar(100)  NOT NULL ,
+	TELEFONO             varchar(20)  NOT NULL ,
+	CORREO               varchar(100)  NOT NULL ,
+	CONSTRAINT XPKEMPLEADO PRIMARY KEY (IDEMPLEADO ASC)
+)
+go
+
+
+
+CREATE TABLE USUARIO
+( 
+	IDEMPLEADO           integer  NOT NULL ,
+	USUARIO              varchar(20)  NOT NULL ,
+	CLAVE                varchar(20)  NOT NULL ,
+	CONSTRAINT XPKUSUARIO PRIMARY KEY (IDEMPLEADO ASC),
+	CONSTRAINT R_2 FOREIGN KEY (IDEMPLEADO) REFERENCES EMPLEADO(IDEMPLEADO)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+)
+go
+
+
+
+CREATE TABLE VENTA
+( 
+	IDVENTA              integer IDENTITY ( 1,1 ) ,
+	IDCLIENTE            integer  NOT NULL ,
+	IDEMPLEADO           integer  NOT NULL ,
+	FECHA                datetime  NOT NULL ,
+	IMPORTE              numeric(10,2)  NOT NULL ,
+	IMPUESTO             numeric(10,2)  NOT NULL ,
+	TOTAL                numeric(10,2)  NOT NULL ,
+	CONSTRAINT XPKVENTA PRIMARY KEY (IDVENTA ASC),
+	CONSTRAINT FK_VENTA_CLIENTE FOREIGN KEY (IDCLIENTE) REFERENCES CLIENTE(IDCLIENTE)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+CONSTRAINT FK_VENTA_USUARIO FOREIGN KEY (IDEMPLEADO) REFERENCES USUARIO(IDEMPLEADO)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+)
+go
+
+
+
+CREATE TABLE CATEGORIA
+( 
+	IDCATEGORIA          integer IDENTITY ( 1,1 ) ,
+	NOMBRE               varchar(100)  NOT NULL ,
+	CONSTRAINT XPKCATEGORIA PRIMARY KEY (IDCATEGORIA ASC)
+)
+go
+
+
+
+CREATE TABLE PRODUCTO
+( 
+	IDPRODUCTO           integer IDENTITY ( 1,1 ) ,
+	NOMBRE               varchar(100)  NOT NULL ,
+	IDCATEGORIA          integer  NOT NULL ,
+	PRECIO               numeric(10,2)  NOT NULL ,
+	STOCK                integer  NOT NULL ,
+	CONSTRAINT XPKPRODUCTO PRIMARY KEY (IDPRODUCTO ASC),
+	CONSTRAINT FK_PRODUCTO_CATEGORIA FOREIGN KEY (IDCATEGORIA) REFERENCES CATEGORIA(IDCATEGORIA)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+)
+go
+
+
+
+CREATE TABLE DETALLE
+( 
+	IDVENTA              integer  NOT NULL ,
+	IDPRODUCTO           integer  NOT NULL ,
+	CANTIDAD             integer  NOT NULL ,
+	PRECIO               numeric(10,2)  NOT NULL ,
+	SUBTOTAL             numeric(10,2)  NOT NULL ,
+	CONSTRAINT XPKDETALLE PRIMARY KEY (IDVENTA ASC,IDPRODUCTO ASC),
+	CONSTRAINT FK_DETALLE_VENTA FOREIGN KEY (IDVENTA) REFERENCES VENTA(IDVENTA)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+CONSTRAINT FK_DETALLE_PRODUCTO FOREIGN KEY (IDPRODUCTO) REFERENCES PRODUCTO(IDPRODUCTO)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+)
+go
+
+
