@@ -91,6 +91,44 @@ from educa.dbo.PAGO
 group by cur_id;
 go
 
+-- Ejercicio
+/*
+Desarrollar una sentencia SELECT que permita consultar el importe 
+de lo que se tiene comprometido (cobrado y no cobrado) por los cursos 
+vendidos hasta el momento. 
+Base de datos EDUCA.
+*/
+
+-- De JACKELINE FABIOLA MANRIQUE MONTAÑEZ para todos:  04:08 PM
+
+SELECT SUM(mat_precio) [Importe]FROM EDUCA..MATRICULAGO
+
+/*
+La informacion se necesita por curso
+*/
+
+SELECT cur_id, SUM(mat_precio) [Importe]FROM EDUCA..MATRICULAGROUP BY cur_id;GO
+
+
+-- Juntar los Recaudado con lo comprometido
+
+with 
+tv1 as (
+	SELECT cur_id, SUM(mat_precio) comprometido	FROM EDUCA..MATRICULA	GROUP BY cur_id),
+tv2 as (
+	select cur_id, sum(pag_importe) recaudado
+	from educa.dbo.PAGO
+	group by cur_id)
+select tv1.cur_id, tv1.comprometido, isnull(tv2.recaudado,0) recaudado
+from tv1 left join tv2 
+on tv1.cur_id = tv2.cur_id;
+go
+
+
+
+
+
+
 
 
 
